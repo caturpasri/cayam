@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel Admin - Edit Portofolio Ayam Broiler</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-light py-5">
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <div class="card shadow-sm border-0">
+                    <div class="card-header bg-success text-white py-3 d-flex justify-content-between align-items-center">
+                        <h4 class="mb-0 fw-bold"><i class="fa-solid fa-pen-to-square me-2"></i>Panel Input & Pengaturan Content</h4>
+                        <a href="index.html" target="_blank" class="btn btn-light btn-sm fw-bold text-success">
+                            <i class="fa-solid fa-eye me-1"></i> Lihat Portofolio
+                        </a>
+                    </div>
+                    <div class="card-body p-4">
+                        <form id="adminForm">
+                            <h5 class="fw-bold text-success mb-3 border-bottom pb-2">Informasi Utama & Kontak</h5>
+                            <div class="row g-3 mb-4">
+                                <div class="col-md-4">
+                                    <label class="form-label fw-bold small">Nama Usaha / PT</label>
+                                    <input type="text" id="inNamaUsaha" class="form-control" placeholder="Contoh: UD. BROILER SEGAR JAYA">
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label fw-bold small">Nomor WhatsApp (Format: 628xxx)</label>
+                                    <input type="text" id="inNoWA" class="form-control" placeholder="Contoh: 6281234567890">
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label fw-bold small">Email Bisnis</label>
+                                    <input type="email" id="inEmail" class="form-control" placeholder="Contoh: sales@broilersegar.com">
+                                </div>
+                            </div>
+
+                            <h5 class="fw-bold text-success mb-3 border-bottom pb-2">Hero Section (Banner Utama)</h5>
+                            <div class="row g-3 mb-4">
+                                <div class="col-md-6">
+                                    <label class="form-label fw-bold small">Judul Utama (Hero Title)</label>
+                                    <input type="text" id="inHeroTitle" class="form-control" placeholder="Judul Banner">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label fw-bold small">Sub-Judul (Hero Subtitle)</label>
+                                    <input type="text" id="inHeroSub" class="form-control" placeholder="Sub Judul Banner">
+                                </div>
+                            </div>
+
+                            <h5 class="fw-bold text-success mb-3 border-bottom pb-2">Deskripsi & Alamat</h5>
+                            <div class="row g-3 mb-4">
+                                <div class="col-md-6">
+                                    <label class="form-label fw-bold small">Deskripsi Singkat Usaha</label>
+                                    <textarea id="inDeskripsi" class="form-control" rows="3" placeholder="Penjelasan tentang usaha Anda..."></textarea>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label fw-bold small">Alamat Lengkap</label>
+                                    <textarea id="inAlamat" class="form-control" rows="3" placeholder="Alamat lengkap usaha..."></textarea>
+                                </div>
+                            </div>
+
+                            <div class="d-flex justify-content-end gap-2 pt-3 border-top">
+                                <button type="button" class="btn btn-secondary" onclick="resetDefault()">Reset Default</button>
+                                <button type="button" class="btn btn-success fw-bold px-4" onclick="simpanData()">
+                                    <i class="fa-solid fa-floppy-disk me-1"></i> Simpan Perubahan
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap 5 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // Nilai Default
+        const defaultData = {
+            namaUsaha: "UD. BROILER SEGAR JAYA",
+            noWA: "6281234567890",
+            email: "sales@broilersegar.com",
+            heroTitle: "Pemasok Ayam Broiler Segar, Berkualitas & Halal",
+            heroSub: "Melayani Kebutuhan Grosir, Pasar Tradisional, Restoran, Katering, dan Industri Makanan.",
+            deskripsi: "Pemasok terpercaya untuk produk Ayam Broiler (Ayam Negeri) segar, baik dalam bentuk Livebird (ayam hidup) maupun karkas (ayam potong) berkualitas tinggi.",
+            alamat: "Jl. Raya Pasar Hewan No. 45, Kecamatan Sukamaju, Kota Bandung, Jawa Barat"
+        };
+
+        // Muat Data saat Halaman Dibuka
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedData = JSON.parse(localStorage.getItem('broilerPortfolioData')) || defaultData;
+            document.getElementById('inNamaUsaha').value = savedData.namaUsaha;
+            document.getElementById('inNoWA').value = savedData.noWA;
+            document.getElementById('inEmail').value = savedData.email;
+            document.getElementById('inHeroTitle').value = savedData.heroTitle;
+            document.getElementById('inHeroSub').value = savedData.heroSub;
+            document.getElementById('inDeskripsi').value = savedData.deskripsi;
+            document.getElementById('inAlamat').value = savedData.alamat;
+        });
+
+        // Fungsi Simpan Data ke LocalStorage
+        function simpanData() {
+            const dataToSave = {
+                namaUsaha: document.getElementById('inNamaUsaha').value || defaultData.namaUsaha,
+                noWA: document.getElementById('inNoWA').value || defaultData.noWA,
+                email: document.getElementById('inEmail').value || defaultData.email,
+                heroTitle: document.getElementById('inHeroTitle').value || defaultData.heroTitle,
+                heroSub: document.getElementById('inHeroSub').value || defaultData.heroSub,
+                deskripsi: document.getElementById('inDeskripsi').value || defaultData.deskripsi,
+                alamat: document.getElementById('inAlamat').value || defaultData.alamat
+            };
+
+            localStorage.setItem('broilerPortfolioData', JSON.stringify(dataToSave));
+            alert(' Data berhasil disimpan! Silakan cek halaman portofolio (index.html).');
+        }
+
+        // Fungsi Reset ke Default
+        function resetDefault() {
+            if (confirm('Apakah Anda yakin ingin mengembalikan isi ke pengaturan awal?')) {
+                localStorage.setItem('broilerPortfolioData', JSON.stringify(defaultData));
+                location.reload();
+            }
+        }
+    </script>
+</body>
+</html>
