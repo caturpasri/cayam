@@ -14,55 +14,71 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-lg-10">
-                <div class="card shadow-sm border-0">
+                <div class="card shadow-sm border-0 mb-4">
                     <div class="card-header bg-success text-white py-3 d-flex justify-content-between align-items-center">
-                        <h4 class="mb-0 fw-bold"><i class="fa-solid fa-pen-to-square me-2"></i>Panel Input & Pengaturan Content</h4>
+                        <h4 class="mb-0 fw-bold"><i class="fa-solid fa-pen-to-square me-2"></i>Panel Input Content</h4>
                         <a href="index.html" target="_blank" class="btn btn-light btn-sm fw-bold text-success">
                             <i class="fa-solid fa-eye me-1"></i> Lihat Portofolio
                         </a>
                     </div>
                     <div class="card-body p-4">
                         <form id="adminForm">
+                            <!-- INFORMASI UTAMA -->
                             <h5 class="fw-bold text-success mb-3 border-bottom pb-2">Informasi Utama & Kontak</h5>
                             <div class="row g-3 mb-4">
                                 <div class="col-md-4">
                                     <label class="form-label fw-bold small">Nama Usaha / PT</label>
-                                    <input type="text" id="inNamaUsaha" class="form-control" placeholder="Contoh: UD. BROILER SEGAR JAYA">
+                                    <input type="text" id="inNamaUsaha" class="form-control">
                                 </div>
                                 <div class="col-md-4">
                                     <label class="form-label fw-bold small">Nomor WhatsApp (Format: 628xxx)</label>
-                                    <input type="text" id="inNoWA" class="form-control" placeholder="Contoh: 6281234567890">
+                                    <input type="text" id="inNoWA" class="form-control">
                                 </div>
                                 <div class="col-md-4">
                                     <label class="form-label fw-bold small">Email Bisnis</label>
-                                    <input type="email" id="inEmail" class="form-control" placeholder="Contoh: sales@broilersegar.com">
+                                    <input type="email" id="inEmail" class="form-control">
                                 </div>
                             </div>
 
+                            <!-- HERO SECTION -->
                             <h5 class="fw-bold text-success mb-3 border-bottom pb-2">Hero Section (Banner Utama)</h5>
                             <div class="row g-3 mb-4">
                                 <div class="col-md-6">
                                     <label class="form-label fw-bold small">Judul Utama (Hero Title)</label>
-                                    <input type="text" id="inHeroTitle" class="form-control" placeholder="Judul Banner">
+                                    <input type="text" id="inHeroTitle" class="form-control">
                                 </div>
                                 <div class="col-md-6">
                                     <label class="form-label fw-bold small">Sub-Judul (Hero Subtitle)</label>
-                                    <input type="text" id="inHeroSub" class="form-control" placeholder="Sub Judul Banner">
+                                    <input type="text" id="inHeroSub" class="form-control">
                                 </div>
                             </div>
 
+                            <!-- DESKRIPSI & ALAMAT -->
                             <h5 class="fw-bold text-success mb-3 border-bottom pb-2">Deskripsi & Alamat</h5>
                             <div class="row g-3 mb-4">
                                 <div class="col-md-6">
                                     <label class="form-label fw-bold small">Deskripsi Singkat Usaha</label>
-                                    <textarea id="inDeskripsi" class="form-control" rows="3" placeholder="Penjelasan tentang usaha Anda..."></textarea>
+                                    <textarea id="inDeskripsi" class="form-control" rows="3"></textarea>
                                 </div>
                                 <div class="col-md-6">
                                     <label class="form-label fw-bold small">Alamat Lengkap</label>
-                                    <textarea id="inAlamat" class="form-control" rows="3" placeholder="Alamat lengkap usaha..."></textarea>
+                                    <textarea id="inAlamat" class="form-control" rows="3"></textarea>
                                 </div>
                             </div>
 
+                            <!-- INPUT VARIAN PRODUK DYNAMIC -->
+                            <div class="d-flex justify-content-between align-items-center mb-3 border-bottom pb-2">
+                                <h5 class="fw-bold text-success mb-0">Input Katalog Varian Produk</h5>
+                                <button type="button" class="btn btn-outline-success btn-sm fw-bold" onclick="tambahBarisProduk()">
+                                    <i class="fa-solid fa-plus me-1"></i> Tambah Varian Produk
+                                </button>
+                            </div>
+
+                            <div id="containerProduk" class="mb-4">
+                                <!-- Baris Produk akan di-render di sini oleh JavaScript -->
+                            </div>
+
+                            <!-- BUTTON ACTION -->
                             <div class="d-flex justify-content-end gap-2 pt-3 border-top">
                                 <button type="button" class="btn btn-secondary" onclick="resetDefault()">Reset Default</button>
                                 <button type="button" class="btn btn-success fw-bold px-4" onclick="simpanData()">
@@ -80,7 +96,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
-        // Nilai Default
+        // Data Default bawaan
         const defaultData = {
             namaUsaha: "UD. BROILER SEGAR JAYA",
             noWA: "6281234567890",
@@ -88,12 +104,20 @@
             heroTitle: "Pemasok Ayam Broiler Segar, Berkualitas & Halal",
             heroSub: "Melayani Kebutuhan Grosir, Pasar Tradisional, Restoran, Katering, dan Industri Makanan.",
             deskripsi: "Pemasok terpercaya untuk produk Ayam Broiler (Ayam Negeri) segar, baik dalam bentuk Livebird (ayam hidup) maupun karkas (ayam potong) berkualitas tinggi.",
-            alamat: "Jl. Raya Pasar Hewan No. 45, Kecamatan Sukamaju, Kota Bandung, Jawa Barat"
+            alamat: "Jl. Raya Pasar Hewan No. 45, Kecamatan Sukamaju, Kota Bandung, Jawa Barat",
+            produkList: [
+                { varian: "Livebird (Ayam Hidup)", ukuran: "1.2 kg – 2.5+ kg / ekor", deskripsi: "Sehat, bebas penyakit, dan susut bobot minim saat pengiriman." },
+                { varian: "Karkas Utuh (Fresh/Frozen)", ukuran: "0.8 kg – 1.8 kg / ekor", deskripsi: "Lengkap dengan/tanpa kepala & kaki, siap olah." },
+                { varian: "Ayam Parting (Potong)", ukuran: "Potong 4, 8, 10, atau 12", deskripsi: "Ukuran presisi, cocok untuk katering & restoran." },
+                { varian: "Boneless (Fillet)", ukuran: "Dada Fillet (BS) & Paha Fillet (BL)", deskripsi: "Daging bersih tanpa tulang & kulit, kadar air rendah." },
+                { varian: "Sampingan (By-Products)", ukuran: "Ati Ampela, Ceker, Usus, Kepala", deskripsi: "Diproses bersih dan higienis pada hari yang sama." }
+            ]
         };
 
         // Muat Data saat Halaman Dibuka
         document.addEventListener('DOMContentLoaded', function() {
             const savedData = JSON.parse(localStorage.getItem('broilerPortfolioData')) || defaultData;
+            
             document.getElementById('inNamaUsaha').value = savedData.namaUsaha;
             document.getElementById('inNoWA').value = savedData.noWA;
             document.getElementById('inEmail').value = savedData.email;
@@ -101,10 +125,92 @@
             document.getElementById('inHeroSub').value = savedData.heroSub;
             document.getElementById('inDeskripsi').value = savedData.deskripsi;
             document.getElementById('inAlamat').value = savedData.alamat;
+
+            // Render Produk Form Inputs
+            renderFormProduk(savedData.produkList || defaultData.produkList);
         });
 
-        // Fungsi Simpan Data ke LocalStorage
+        // Function Tambah Baris Input Produk
+        function renderFormProduk(listProduk) {
+            const container = document.getElementById('containerProduk');
+            container.innerHTML = '';
+
+            listProduk.forEach((prod, index) => {
+                const itemHtml = `
+                    <div class="card card-body bg-white border mb-2 baris-produk" id="produkRow_${index}">
+                        <div class="row g-2 align-items-center">
+                            <div class="col-md-3">
+                                <label class="form-label small text-muted mb-1">Varian Produk</label>
+                                <input type="text" class="form-control form-control-sm inVarian" value="${prod.varian}" placeholder="Contoh: Boneless Dada">
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label small text-muted mb-1">Kategori / Ukuran</label>
+                                <input type="text" class="form-control form-control-sm inUkuran" value="${prod.ukuran}" placeholder="Contoh: 1 kg / pack">
+                            </div>
+                            <div class="col-md-5">
+                                <label class="form-label small text-muted mb-1">Deskripsi & Keunggulan</label>
+                                <input type="text" class="form-control form-control-sm inDeskripsiProduk" value="${prod.deskripsi}" placeholder="Keterangan singkat">
+                            </div>
+                            <div class="col-md-1 text-end mt-4">
+                                <button type="button" class="btn btn-danger btn-sm" onclick="hapusBarisProduk(${index})">
+                                    <i class="fa-solid fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                container.insertAdjacentHTML('beforeend', itemHtml);
+            });
+        }
+
+        function tambahBarisProduk() {
+            const container = document.getElementById('containerProduk');
+            const newIndex = new Date().getTime(); // Unique ID
+            const itemHtml = `
+                <div class="card card-body bg-white border mb-2 baris-produk" id="produkRow_${newIndex}">
+                    <div class="row g-2 align-items-center">
+                        <div class="col-md-3">
+                            <label class="form-label small text-muted mb-1">Varian Produk</label>
+                            <input type="text" class="form-control form-control-sm inVarian" placeholder="Nama Produk">
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label small text-muted mb-1">Kategori / Ukuran</label>
+                            <input type="text" class="form-control form-control-sm inUkuran" placeholder="Berat / Ukuran">
+                        </div>
+                        <div class="col-md-5">
+                            <label class="form-label small text-muted mb-1">Deskripsi & Keunggulan</label>
+                            <input type="text" class="form-control form-control-sm inDeskripsiProduk" placeholder="Keterangan produk">
+                        </div>
+                        <div class="col-md-1 text-end mt-4">
+                            <button type="button" class="btn btn-danger btn-sm" onclick="hapusBarisProduk(${newIndex})">
+                                <i class="fa-solid fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            container.insertAdjacentHTML('beforeend', itemHtml);
+        }
+
+        function hapusBarisProduk(index) {
+            const row = document.getElementById(`produkRow_${index}`);
+            if(row) row.remove();
+        }
+
+        // Simpan Semua Data
         function simpanData() {
+            // Ambil semua data produk dari baris-baris input
+            const listProdukSimpan = [];
+            document.querySelectorAll('.baris-produk').forEach(row => {
+                const varian = row.querySelector('.inVarian').value;
+                const ukuran = row.querySelector('.inUkuran').value;
+                const deskripsi = row.querySelector('.inDeskripsiProduk').value;
+
+                if(varian.trim() !== '') {
+                    listProdukSimpan.push({ varian, ukuran, deskripsi });
+                }
+            });
+
             const dataToSave = {
                 namaUsaha: document.getElementById('inNamaUsaha').value || defaultData.namaUsaha,
                 noWA: document.getElementById('inNoWA').value || defaultData.noWA,
@@ -112,14 +218,14 @@
                 heroTitle: document.getElementById('inHeroTitle').value || defaultData.heroTitle,
                 heroSub: document.getElementById('inHeroSub').value || defaultData.heroSub,
                 deskripsi: document.getElementById('inDeskripsi').value || defaultData.deskripsi,
-                alamat: document.getElementById('inAlamat').value || defaultData.alamat
+                alamat: document.getElementById('inAlamat').value || defaultData.alamat,
+                produkList: listProdukSimpan
             };
 
             localStorage.setItem('broilerPortfolioData', JSON.stringify(dataToSave));
-            alert(' Data berhasil disimpan! Silakan cek halaman portofolio (index.html).');
+            alert(' Data & Katalog Varian Produk Berhasil Disimpan!');
         }
 
-        // Fungsi Reset ke Default
         function resetDefault() {
             if (confirm('Apakah Anda yakin ingin mengembalikan isi ke pengaturan awal?')) {
                 localStorage.setItem('broilerPortfolioData', JSON.stringify(defaultData));
